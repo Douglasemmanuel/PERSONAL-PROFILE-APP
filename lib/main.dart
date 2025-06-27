@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.teal,
+        textTheme: GoogleFonts.latoTextTheme(), // apply globally if desired
       ),
       home: const ProfilePage(),
     );
@@ -36,38 +39,51 @@ class ProfilePage extends StatelessWidget {
             children: [
               const CircleAvatar(
                 radius: 70,
-                backgroundImage: AssetImage('assets/images/Douglas.jpeg'), // Add your image here
+                backgroundImage:
+                    AssetImage('assets/images/Douglas.jpeg'), // Add your image here
               ),
               const SizedBox(height: 20),
-              const Text(
+
+              // Fixed: removed const + applied GoogleFonts
+              Text(
                 'Douglas Emmanuel',
-                style: TextStyle(
+                style: GoogleFonts.lato(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
+
+              Text(
                 'Flutter Developer | Tech Enthusiast',
-                style:  GoogleFonts.lato(
+                style: GoogleFonts.lato(
                   fontSize: 16,
-                  color: Colors.grey,
+                  color: Colors.grey[700],
                 ),
               ),
               const Divider(height: 40, thickness: 1),
               _buildSectionTitle('About Me'),
-              const Text(
+
+              Text(
                 'I am a passionate Flutter developer with a love for creating beautiful and functional mobile apps.',
                 textAlign: TextAlign.center,
+                style: GoogleFonts.lato(fontSize: 16),
               ),
+
               const SizedBox(height: 20),
               _buildSectionTitle('Skills'),
               _buildSkillChips(['Flutter', 'Dart', 'Firebase', 'UI/UX', 'Git']),
               const SizedBox(height: 20),
               _buildSectionTitle('Contact'),
               _buildContactCard(Icons.email, 'emmanueldouglas2121@gmail.com'),
-              _buildContactCard(Icons.web, 'https://douglas-portfoilo.vercel.app/'),
-              _buildContactCard(Icons.code ,'https://github.com/Douglasemmanuel/'),
+              _buildContactCard(Icons.web,
+              'https://douglas-portfoilo.vercel.app/',
+               url: 'https://douglas-portfoilo.vercel.app/',
+              ),
+              _buildContactCard(Icons.code,
+              'https://github.com/Douglasemmanuel/',
+               url: 'https://github.com/Douglasemmanuel/',
+               ),
             ],
           ),
         ),
@@ -80,9 +96,10 @@ class ProfilePage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Text(
         title,
-        style:  GoogleFonts.lato(
+        style: GoogleFonts.lato(
           fontSize: 20,
           fontWeight: FontWeight.bold,
+          color: Colors.teal[800],
         ),
       ),
     );
@@ -94,21 +111,39 @@ class ProfilePage extends StatelessWidget {
       runSpacing: 8,
       children: skills.map((skill) {
         return Chip(
-          label: Text(skill),
+          label: Text(
+            skill,
+            style: GoogleFonts.lato(),
+          ),
           backgroundColor: Colors.teal[100],
         );
       }).toList(),
     );
   }
 
-  Widget _buildContactCard(IconData icon, String content) {
+  Widget _buildContactCard(IconData icon, String content,{String? url}) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: ListTile(
         leading: Icon(icon, color: Colors.teal),
-        title: Text(content),
+        title: Text(
+          content,
+          style: GoogleFonts.lato(fontSize: 16),
+        ),
+        onTap: url != null ? () => _launchURL(url) : null,
+
       ),
     );
   }
 }
+
+void _launchURL(String url) async {
+  final uri = Uri.parse(url);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 
