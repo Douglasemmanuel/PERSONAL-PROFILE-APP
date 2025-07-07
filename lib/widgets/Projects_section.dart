@@ -34,7 +34,7 @@ class ProjectsSection extends StatelessWidget {
                 'E-Commerce App',
                 'A complete shopping app with cart, payments, and user management.',
                 ['Flutter', 'Firebase', 'Stripe'],
-                'assets/images/project1.jpg',
+                 'assets/images/aboki.png',
               ),
               const SizedBox(height: 16),
               _buildProjectCard(
@@ -42,7 +42,7 @@ class ProjectsSection extends StatelessWidget {
                 'Weather App',
                 'Beautiful weather app with location services and forecasts.',
                 ['Flutter', 'APIs', 'Location'],
-                'assets/images/project2.jpg',
+                'assets/images/weather.jpeg',
               ),
               const SizedBox(height: 16),
               _buildProjectCard(
@@ -50,7 +50,7 @@ class ProjectsSection extends StatelessWidget {
                 'Task Manager',
                 'Productivity app for managing daily tasks and projects.',
                 ['Flutter', 'SQLite', 'Notifications'],
-                'assets/images/project3.jpg',
+                'assets/images/taskmanager.jpeg',
               ),
             ],
           ),
@@ -78,16 +78,29 @@ class ProjectsSection extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(
               top: Radius.circular(12),
             ),
-            child: Container(
+            child: Image.asset(
+            imagePath,
+            height: 120,
+            width: double.infinity,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => Container(
               height: 120,
               width: double.infinity,
               color: Colors.grey[300],
-              child: const Icon(
-                Icons.image,
-                size: 40,
-                color: Colors.grey,
-              ),
+              child: const Icon(Icons.broken_image, color: Colors.grey),
             ),
+          ),
+            // child: Container(
+            //   imagePath,
+            //   height: 120,
+            //   width: double.infinity,
+            //   color: Colors.grey[300],
+            //   child: const Icon(
+            //     Icons.image,
+            //     size: 40,
+            //     color: Colors.grey,
+            //   ),
+            // ),
           ),
           Padding(
             padding: const EdgeInsets.all(16),
